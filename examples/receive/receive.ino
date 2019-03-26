@@ -15,11 +15,11 @@ bool led_on = false;
 void setup()
 {
   Serial.begin(115200);
-  Serial.print("Initializing SPI...");
+  Serial.println("Initializing SPI...");
   vspi.begin();
-  Serial.print("Initializing CAN...");
-  if(CAN0.begin(CAN_500KBPS) == CAN_OK) Serial.print("can init ok!!\r\n");
-  else Serial.print("Can init fail!!\r\n");
+  Serial.println("Initializing CAN...");
+  if(CAN0.begin(CAN_500KBPS) == CAN_OK) Serial.println("can init ok!!\r\n");
+  else Serial.println("Can init fail!!\r\n");
   pinMode(4, INPUT);                            // Setting pin 4 for /INT input
   Serial.println("MCP2515 Library Receive Example...");
   pinMode(LED_BUILTIN, OUTPUT);
@@ -31,19 +31,19 @@ void loop()
     {
       CAN0.readMsgBuf(&len, rxBuf);              // Read data: len = data length, buf = data byte(s)
       rxId = CAN0.getCanId();                    // Get message ID
-      //Serial.print("ID: ");
-      //Serial.print(rxId, HEX);
-      //Serial.print("  Data: ");
+      Serial.print("ID: ");
+      Serial.print(rxId, HEX);
+      Serial.print("  Data: ");
       for(int i = 0; i<len; i++)                // Print each byte of the data
       {
         if(rxBuf[i] < 0x10)                     // If data byte is less than 0x10, add a leading zero
         {
-          //Serial.print("0");
+          Serial.print("0");
         }
-        //Serial.print(rxBuf[i], HEX);
-        //Serial.print(" ");
+        Serial.print(rxBuf[i], HEX);
+        Serial.print(" ");
       }
-      //Serial.println();
+      Serial.println();
 
       digitalWrite(LED_BUILTIN, led_on);
       led_on = !led_on;
