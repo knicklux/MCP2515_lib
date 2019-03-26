@@ -8,7 +8,7 @@ unsigned char rxBuf[8];
 
 SPIClass vspi(VSPI);
 
-MCP_CAN CAN0(5, vspi);                             // Set CS to pin 5
+MCP_CAN CAN0(5, &vspi);                             // Set CS to pin 5
 
 bool led_on = false;
 
@@ -31,19 +31,19 @@ void loop()
     {
       CAN0.readMsgBuf(&len, rxBuf);              // Read data: len = data length, buf = data byte(s)
       rxId = CAN0.getCanId();                    // Get message ID
-      Serial.print("ID: ");
-      Serial.print(rxId, HEX);
-      Serial.print("  Data: ");
+      //Serial.print("ID: ");
+      //Serial.print(rxId, HEX);
+      //Serial.print("  Data: ");
       for(int i = 0; i<len; i++)                // Print each byte of the data
       {
         if(rxBuf[i] < 0x10)                     // If data byte is less than 0x10, add a leading zero
         {
-          Serial.print("0");
+          //Serial.print("0");
         }
-        Serial.print(rxBuf[i], HEX);
-        Serial.print(" ");
+        //Serial.print(rxBuf[i], HEX);
+        //Serial.print(" ");
       }
-      Serial.println();
+      //Serial.println();
 
       digitalWrite(LED_BUILTIN, led_on);
       led_on = !led_on;

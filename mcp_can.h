@@ -43,7 +43,7 @@ class MCP_CAN
     INT8U   m_nfilhit;
     INT8U   SPICS;
 
-    SPIClass spi_module;
+    SPIClass *spi_module;
 
 /*
 *  mcp2515 driver function 
@@ -99,7 +99,7 @@ class MCP_CAN
     INT8U sendMsg();                                                /* send message                 */
 
 public:
-    MCP_CAN(INT8U _CS, SPIClass spi_module);
+    MCP_CAN(INT8U _CS, SPIClass *spi_module);
 	INT8U begin(INT8U speedset, const INT8U clockset = MCP_16MHz);	/* init can                     */
     INT8U init_Mask(INT8U num, INT8U ext, INT32U ulData);           /* init Masks                   */
     INT8U init_Filt(INT8U num, INT8U ext, INT32U ulData);           /* init filters                 */
