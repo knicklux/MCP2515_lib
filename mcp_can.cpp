@@ -618,7 +618,7 @@ INT8U MCP_CAN::mcp2515_getNextFreeTXBuf(INT8U *txbuf_n)                 /* get N
 ** Function name:           set CS
 ** Descriptions:            init CS pin and set UNSELECTED
 *********************************************************************************************************/
-MCP_CAN::MCP_CAN(INT8U _CS)
+MCP_CAN::MCP_CAN(INT8U _CS, SPI_MODULE selected_spi_module) : spi_module(spi_module)
 {
 	SPICS = _CS;
 	pinMode(SPICS, OUTPUT);

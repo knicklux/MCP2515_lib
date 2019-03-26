@@ -23,18 +23,13 @@
 #ifndef _MCP2515_H_
 #define _MCP2515_H_
 
+#include <SPI.h>
+
 #include "mcp_can_dfs.h"
 #define MAX_CHAR_IN_MESSAGE 8
 
 class MCP_CAN
 {
-
-    public:
-
-    enum SPI_MODULE: char {
-        HSPI = 0,
-        QSPI = 1
-    };
 
     private:
     
@@ -47,6 +42,8 @@ class MCP_CAN
     INT8U   m_nRtr;                                                     /* rtr                          */
     INT8U   m_nfilhit;
     INT8U   SPICS;
+
+    SPIClass spi_module;
 
 /*
 *  mcp2515 driver function 
@@ -102,7 +99,7 @@ class MCP_CAN
     INT8U sendMsg();                                                /* send message                 */
 
 public:
-    MCP_CAN(INT8U _CS);
+    MCP_CAN(INT8U _CS, SPIClass spi_module);
 	INT8U begin(INT8U speedset, const INT8U clockset = MCP_16MHz);	/* init can                     */
     INT8U init_Mask(INT8U num, INT8U ext, INT32U ulData);           /* init Masks                   */
     INT8U init_Filt(INT8U num, INT8U ext, INT32U ulData);           /* init filters                 */
