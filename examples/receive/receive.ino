@@ -18,7 +18,8 @@ void setup()
   Serial.print("Initializing SPI...");
   vspi.begin();
   Serial.print("Initializing CAN...");
-  CAN0.begin(CAN_500KBPS);                       // init can bus : baudrate = 500k 
+  if(CAN0.begin(CAN_500KBPS) == CAN_OK) Serial.print("can init ok!!\r\n");
+  else Serial.print("Can init fail!!\r\n");
   pinMode(4, INPUT);                            // Setting pin 4 for /INT input
   Serial.println("MCP2515 Library Receive Example...");
   pinMode(LED_BUILTIN, OUTPUT);
