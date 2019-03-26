@@ -28,6 +28,14 @@
 
 class MCP_CAN
 {
+
+    public:
+
+    enum SPI_MODULE: char {
+        HSPI = 0,
+        QSPI = 1
+    };
+
     private:
     
     INT8U   m_nExtFlg;                                                  /* identifier xxxID             */
