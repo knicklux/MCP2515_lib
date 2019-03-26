@@ -6,20 +6,27 @@ long unsigned int rxId;
 unsigned char len = 0;
 unsigned char rxBuf[8];
 
-MCP_CAN CAN0(10);                               // Set CS to pin 10
+SPIClass vspi(VSPI);
 
+MCP_CAN CAN0(5, vspi);                             // Set CS to pin 5
+
+bool led_on = false;
 
 void setup()
 {
   Serial.begin(115200);
+  Serial.print("Initializing SPI...");
+  vspi.begin();
+  Serial.print("Initializing CAN...");
   CAN0.begin(CAN_500KBPS);                       // init can bus : baudrate = 500k 
-  pinMode(2, INPUT);                            // Setting pin 2 for /INT input
+  pinMode(4, INPUT);                            // Setting pin 4 for /INT input
   Serial.println("MCP2515 Library Receive Example...");
+  pinMode(LED_BUILTIN, OUTPUT);
 }
 
 void loop()
 {
-    if(!digitalRead(2))                         // If pin 2 is low, read receive buffer
+    if(!digitalRead(4))                         // If pin 4 is low, read receive buffer
     {
       CAN0.readMsgBuf(&len, rxBuf);              // Read data: len = data length, buf = data byte(s)
       rxId = CAN0.getCanId();                    // Get message ID
@@ -36,6 +43,9 @@ void loop()
         Serial.print(" ");
       }
       Serial.println();
+
+      digitalWrite(LED_BUILTIN, led_on);
+      led_on = !led_on;
     }
 }
 

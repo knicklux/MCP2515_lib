@@ -22,7 +22,8 @@
   */
 #include "mcp_can.h"
 
-#define spi_readwrite SPI.transfer
+// #define spi_readwrite SPI.transfer
+#define spi_readwrite spi_module.transfer
 #define spi_read() spi_readwrite(0x00)
 
 /*********************************************************************************************************
@@ -618,7 +619,7 @@ INT8U MCP_CAN::mcp2515_getNextFreeTXBuf(INT8U *txbuf_n)                 /* get N
 ** Function name:           set CS
 ** Descriptions:            init CS pin and set UNSELECTED
 *********************************************************************************************************/
-MCP_CAN::MCP_CAN(INT8U _CS, SPI_MODULE selected_spi_module) : spi_module(spi_module)
+MCP_CAN::MCP_CAN(INT8U _CS, SPIClass selected_spi_module) : spi_module(spi_module)
 {
 	SPICS = _CS;
 	pinMode(SPICS, OUTPUT);
@@ -633,7 +634,6 @@ INT8U MCP_CAN::begin(INT8U speedset, const INT8U clockset)
 {
 	INT8U res;
 
-	SPI.begin();
 	res = mcp2515_init(speedset, clockset);
 	if (res == MCP2515_OK) return CAN_OK;
 	else return CAN_FAILINIT;
