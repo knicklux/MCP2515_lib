@@ -12,6 +12,10 @@ MCP_CAN CAN0(5, &vspi);                             // Set CS to pin 5
 
 bool led_on = false;
 
+bool data_available() {
+  return CAN0.checkReceive() == CAN_MSGAVAIL;
+}
+
 void setup()
 {
   Serial.begin(115200);
@@ -27,7 +31,8 @@ void setup()
 
 void loop()
 {
-    if(!digitalRead(4))                         // If pin 4 is low, read receive buffer
+    //if(!digitalRead(4))                         // If pin 4 is low, read receive buffer
+    if(data_available())
     {
       CAN0.readMsgBuf(&len, rxBuf);              // Read data: len = data length, buf = data byte(s)
       rxId = CAN0.getCanId();                    // Get message ID
