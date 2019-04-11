@@ -2,7 +2,7 @@
 #include <mcp_can.h>
 #include <SPI.h>
 
-static const int spiClk = 1000000; // 1 MHz
+static const int spiClk = 10000000; // 10 MHz
 SPIClass hspi(HSPI);
 
 MCP_CAN CAN0(15, &hspi);                           // Set CS to pin 15
@@ -11,7 +11,7 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println("Initializing SPI...");
-  hspi.begin();
+  hspi.begin(spiClk);
   ///hspi.beginTransaction(SPISettings(spiClk, MSBFIRST, SPI_MODE0));
   // init can bus, baudrate: 500k
   Serial.println("Initializing CAN...");
